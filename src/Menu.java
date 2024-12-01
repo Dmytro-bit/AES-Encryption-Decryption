@@ -17,9 +17,11 @@ public class Menu {
 
     public static void drawManu() {
         System.out.println("\nMenu options:");
-        System.out.println("\t1) Encrypt a File");
-        System.out.println("\t2) Decrypt a File");
-        System.out.println("\t3) Exit");
+        System.out.println("---------------------------------------");
+        System.out.println("1) Encrypt a File");
+        System.out.println("2) Decrypt a File");
+        System.out.println("3) Exit");
+        System.out.println("Select an option: \n");
     }
 
     public static void encryptMenu() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, IOException, InvalidKeyException {
@@ -28,6 +30,7 @@ public class Menu {
 
 
         while (true) {
+            System.out.println("---------------------------------------");
             System.out.println("Please enter file name for encryption:");
             input = scanner.nextLine();
             file = new File(input);
@@ -42,15 +45,17 @@ public class Menu {
         File encrypted = new File("ciphertext.txt");
         AES.encryptFile(file, key, encrypted);
 
+        System.out.println("---------------------------------------");
         System.out.println("\nFile encrypted successfully");
         System.out.println("Encryption key: " + Base64.getEncoder().encodeToString(key.getEncoded()));
     }
 
-    public static void decryptMenu() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, IOException, BadPaddingException, InvalidKeyException {
+    public static void decryptMenu() {
         String input;
         File file;
 
         while (true) {
+            System.out.println("---------------------------------------");
             System.out.println("Please enter file name for decryption:");
             input = scanner.nextLine();
             file = new File(input);
@@ -59,16 +64,24 @@ public class Menu {
             }
             System.out.println("Selected file does not exist");
         }
+        while (true) {
+            System.out.println("---------------------------------------");
+            System.out.println("Please enter encryption key:");
+            input = scanner.nextLine();
 
-        System.out.println("Please enter encryption key:");
-        input = scanner.nextLine();
+            try {
 
-        byte[] decodedKey = Base64.getDecoder().decode(input);
-        SecretKey key = new SecretKeySpec(decodedKey, "AES");
+                byte[] decodedKey = Base64.getDecoder().decode(input);
+                SecretKey key = new SecretKeySpec(decodedKey, "AES");
 
-        File decrypted = new File("plaintext.txt");
-        AES.decryptFile(key, file, decrypted);
+                File decrypted = new File("plaintext.txt");
+                AES.decryptFile(key, file, decrypted);
 
-        System.out.println("\nFile decrypted successfully");
+                System.out.println("\nFile decrypted successfully");
+                break;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }
