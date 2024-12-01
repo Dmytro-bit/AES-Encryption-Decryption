@@ -19,11 +19,15 @@ public class Main {
             switch (option) {
                 case "1":
                     Menu.encryptMenu();
+                    break;
                 case "2":
-                    continue;
+                    System.out.println("Encrypt");
+                    Menu.decryptMenu();
+                    break;
                 case "3":
                     System.out.println("Ending program");
                     working = false;
+                    break;
             }
         }
     }

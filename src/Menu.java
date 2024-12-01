@@ -2,6 +2,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -43,7 +44,31 @@ public class Menu {
 
         System.out.println("\nFile encrypted successfully");
         System.out.println("Encryption key: " + Base64.getEncoder().encodeToString(key.getEncoded()));
+    }
 
+    public static void decryptMenu() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, IOException, BadPaddingException, InvalidKeyException {
+        String input;
+        File file;
 
+        while (true) {
+            System.out.println("Please enter file name for decryption:");
+            input = scanner.nextLine();
+            file = new File(input);
+            if (file.exists()) {
+                break;
+            }
+            System.out.println("Selected file does not exist");
+        }
+
+        System.out.println("Please enter encryption key:");
+        input = scanner.nextLine();
+
+        byte[] decodedKey = Base64.getDecoder().decode(input);
+        SecretKey key = new SecretKeySpec(decodedKey, "AES");
+
+        File decrypted = new File("plaintext.txt");
+        AES.decryptFile(key, file, decrypted);
+
+        System.out.println("\nFile decrypted successfully");
     }
 }
