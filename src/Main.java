@@ -21,7 +21,6 @@ public class Main {
                     Menu.encryptMenu();
                     break;
                 case "2":
-                    System.out.println("Encrypt");
                     Menu.decryptMenu();
                     break;
                 case "3":
